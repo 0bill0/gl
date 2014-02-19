@@ -7,7 +7,7 @@ class Pessoa(object):
     def autentica(self, n, s):
         con = Connection('localhost')
         db = con['Banco']
-        if(db.pessoa.find({"name": n, "senha": s}).count() > 0 ):
+        if(db.pessoa.find({"name": n}).count() > 0 ):
             users = db.pessoa.find({"name": n})
             self.p = users[0]
             return users[0]
