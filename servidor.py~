@@ -7,7 +7,7 @@ class Pessoa(object):
     def autentica(self, n, s):
         con = Connection('localhost')
         db = con['Banco']
-        if(db.pessoa.find({"name": n}).count() > 0 ):
+        if(db.pessoa.find({"name": n, "senha": s}).count() > 0 ):
             users = db.pessoa.find({"name": n})
             self.p = users[0]
             return users[0]
@@ -18,7 +18,7 @@ class Pessoa(object):
         self.erro = "Login e/ou Senha incorreto(s)"
 
     def imprimir(self, n, s):
-        if Pessoa.autentica(n , s) != False: return self.p
+        if Pessoa.autentica(n , s) != False: return "Voce tem R$" self.p['conta']['saldo']
         else : return self.erro
   
 
@@ -36,19 +36,16 @@ class Conta(object):
 
     def g(self):
         return "asd - "+self.a
-p = Pessoa()        
-n = raw_input("Nome: ")
-s = raw_input("Senha: ")
-print p.imprimir(n, s)
+
 # ------ normal code ------
-#daemon = Pyro4.Daemon()
-#uri = daemon.register(Pessoa())
-#print "uri=",uri
-#p = Pessoa()
+daemon = Pyro4.Daemon()
+uri = daemon.register(Pessoa())
+print "uri=",uri
+p = Pessoa()
 
 # ------ alternatively, using serveSimple -----
-#Pyro4.Daemon.serveSimple(
-#    {
-#        Pessoa(): None
-#    },
-#    ns=False, verbose=True)
+Pyro4.Daemon.serveSimple(
+    {
+        Pessoa(): None
+    },
+    ns=False, verbose=True)

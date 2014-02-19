@@ -18,7 +18,7 @@ class Pessoa(object):
         self.erro = "Login e/ou Senha incorreto(s)"
 
     def imprimir(self, n, s):
-        if Pessoa.autentica(n , s) != False: return self.p
+        if Pessoa.autentica(n , s) != False: return "Voce tem R$", self.p['conta']['saldo']
         else : return self.erro
   
 
