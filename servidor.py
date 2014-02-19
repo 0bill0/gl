@@ -36,19 +36,16 @@ class Conta(object):
 
     def g(self):
         return "asd - "+self.a
-p = Pessoa()        
-n = raw_input("Nome: ")
-s = raw_input("Senha: ")
-print p.imprimir(n, s)
+
 # ------ normal code ------
-#daemon = Pyro4.Daemon()
-#uri = daemon.register(Pessoa())
-#print "uri=",uri
-#p = Pessoa()
+daemon = Pyro4.Daemon()
+uri = daemon.register(Pessoa())
+print "uri=",uri
+p = Pessoa()
 
 # ------ alternatively, using serveSimple -----
-#Pyro4.Daemon.serveSimple(
-#    {
-#        Pessoa(): None
-#    },
-#    ns=False, verbose=True)
+Pyro4.Daemon.serveSimple(
+    {
+        Pessoa(): None
+    },
+    ns=False, verbose=True)
