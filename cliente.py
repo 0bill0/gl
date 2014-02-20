@@ -22,4 +22,8 @@ while opcao:
     print p.imprimir(n, s)
 
   elif option==2:
-    print p.c()
+    n = raw_input("Nome: ")
+    s = raw_input("Senha: ")
+    v = input("Valor a ser depositado: ")
+    print p.depositar(n, s, v)
+    print p.imprimir(n, s)
