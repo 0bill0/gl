@@ -7,6 +7,7 @@ class Pessoa(object):
     def autentica(self, n, s):
         con = Connection('localhost')
         db = con['Banco']
+        self.db = db
         if(db.pessoa.find({"name": n, "senha": s}).count() > 0 ):
             users = db.pessoa.find({"name": n})
             self.p = users[0]
@@ -14,12 +15,29 @@ class Pessoa(object):
         else:
             return False
 
+    @classmethod
+    def autentica_deposito(self, n, s): #to do
+#        con = Connection('localhost')
+#        db = con['Banco']
+#        self.db = db
+#        if(db.pessoa.find({"name": n, "senha": s}).count() > 0 ):
+#            users = db.pessoa.find({"name": n})
+#            self.p = users[0]
+#            return users[0]
+#        else:
+#            return False
+
+
     def __init__(self):
         self.erro = "Login e/ou Senha incorreto(s)"
 
     def imprimir(self, n, s):
-        if Pessoa.autentica(n , s) != False: return self.p['conta']['saldo'] #retorno do saldo
+        if Pessoa.autentica(n , s, 1) != False: return self.p['conta']['saldo'] #retorno do saldo
         else : return self.erro
+
+    def depositar(self, valor):
+        if Pessoa.autentica_deposito(n , s) != False:
+            a = "To do"
   
 
 class Conta(object):
