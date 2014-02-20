@@ -8,7 +8,7 @@ opcao=True
 while opcao:
   #Menu
   print "*********************************************************************************************************************"
-  print "Opções\t | 0 -> Sair | 1 -> Saldo | 2 -> A definir"
+  print "Opções\t | 0 -> Sair | 1 -> Saldo | 2 -> Depositar | 3 -> Sacar "
   print "---------------------------------------------------------------------------------------------------------------------"
   option=int(raw_input("Opção: "))
 
@@ -26,4 +26,11 @@ while opcao:
     s = raw_input("Senha: ")
     v = input("Valor a ser depositado: ")
     print p.depositar(n, s, v)
+    print p.imprimir(n, s)
+
+  elif option==3:
+    n = raw_input("Nome: ")
+    s = raw_input("Senha: ")
+    v = input("Valor do saque: ")
+    print p.sacar(n, s, v)
     print p.imprimir(n, s)

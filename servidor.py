@@ -32,6 +32,22 @@ class Pessoa(object):
         else:
             return False
 
+    @classmethod
+    def autentica_saque(self, n, s, val): #to do
+        con = Connection('localhost')
+        db = con['Banco']
+        self.db = db
+        if(db.pessoa.find({"name": n, "senha": s}).count() > 0 ): #verifica se existe
+            users = db.pessoa.find({"name": n}) #resultado json em user
+            p = users[0] #linha encontrada passada para p. p = {"Chave":"valor"...}
+            idobj = p['_id']
+            val = p['conta']['saldo'] - val #acréscimo do valor depositado a saldo
+            db.pessoa.update({ "_id" : idobj},  {"$set":{ "conta" : {"saldo": val}}}) #atualização do valor no banco
+            return users[0]
+        else:
+            return False
+
+
 
     def __init__(self):
         self.erro = "Login e/ou Senha incorreto(s)"
@@ -43,6 +59,10 @@ class Pessoa(object):
     def depositar(self, n, s, valor):
         if Pessoa.autentica_deposito(n , s, valor) != False:
             return "Deposito Efetuado com sucesso"
+
+    def sacar(self, n, s, valor):
+        if Pessoa.autentica_saque(n , s, valor) != False:
+            return "Saque efetuado com sucesso"
   
 
 class Conta(object):

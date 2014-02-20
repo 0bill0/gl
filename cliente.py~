@@ -25,5 +25,12 @@ while opcao:
     n = raw_input("Nome: ")
     s = raw_input("Senha: ")
     v = input("Valor a ser depositado: ")
-    p.depositar(n, s, v)
+    print p.depositar(n, s, v)
+    print p.imprimir(n, s)
+
+  elif option==2:
+    n = raw_input("Nome: ")
+    s = raw_input("Senha: ")
+    v = input("Valor do saque: ")
+    print p.sacar(n, s, v)
     print p.imprimir(n, s)
