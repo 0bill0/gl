@@ -1,7 +1,7 @@
 #coding:utf8
 import Pyro4
 from pymongo import Connection
-set = None
+import time
 
 class Pessoa(object):
 
@@ -55,7 +55,8 @@ class Pessoa(object):
             users = db.pessoa.find({"name": n}) #resultado json em user
             p = users[0] #linha encontrada passada para p. p = {"Chave":"valor"...}
             idobj = p['_id']
-            db.log_transacoes.insert( { "id_cliente": idobj, "tipo": tipo, "valor": valor } )
+            data = time.strftime("%Y-%m-%d %H:%M:%S")
+            db.log_transacoes.insert( { "id_cliente": idobj, "tipo": tipo, "valor": valor, "Data" : data} )
             return "!"
         else:
             return "!Falha de registro de extrato"
@@ -81,7 +82,19 @@ class Pessoa(object):
     def sacar(self, n, s, valor):
         if Pessoa.autentica_saque(n , s, valor) != False:
             return "Saque efetuado com sucesso"
-  
+    
+    def gerar_extrato(self, n, s):
+        con = Connection('localhost')
+        db = con['Banco']
+        self.db = db
+        if Pessoa.autentica(n , s) != False:
+            id_cli = self.p['_id'] #retorno do saldo
+            users = db.log_transacoes.find({"id_cliente": id_cli})
+            b = []
+            for a in users:
+                b.append(a)
+            return b
+        else : return self.erro
 
 class Conta(object):
 

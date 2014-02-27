@@ -1,5 +1,6 @@
 #coding:utf-8
 import Pyro4
+import collections 
 # use the URI that the server printed:
 uri = raw_input("Enter the uri of the warehouse: ").strip()
 p = Pyro4.Proxy(uri)
@@ -8,7 +9,7 @@ opcao=True
 while opcao:
   #Menu
   print "*********************************************************************************************************************"
-  print "Opções\t | 0 -> Sair | 1 -> Saldo | 2 -> Depositar | 3 -> Sacar "
+  print "Opções\t | 0 -> Sair | 1 -> Saldo | 2 -> Depositar | 3 -> Sacar | 4 -> Imprimir Extrato"
   print "---------------------------------------------------------------------------------------------------------------------"
   option=int(raw_input("Opção: "))
 
@@ -34,3 +35,8 @@ while opcao:
     v = input("Valor do saque: ")
     print p.sacar(n, s, v)
     print p.imprimir(n, s)
+
+  elif option==4:
+    n = raw_input("Nome: ")
+    s = raw_input("Senha: ")
+    print p.gerar_extrato(n, s)
