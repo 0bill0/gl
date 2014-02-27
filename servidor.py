@@ -47,16 +47,34 @@ class Pessoa(object):
         else:
             return False
 
+    @classmethod
+    def registrar_log(self, tipo, valor, n, s):
+        con = Connection('localhost')
+        db = con['Banco']
+        if(db.pessoa.find({"name": n, "senha": s}).count() > 0 ): #verifica se existe
+            users = db.pessoa.find({"name": n}) #resultado json em user
+            p = users[0] #linha encontrada passada para p. p = {"Chave":"valor"...}
+            idobj = p['_id']
+            db.log_transacoes.insert( { "id_cliente": idobj, "tipo": tipo, "valor": valor } )
+            return "!"
+        else:
+            return "!Falha de registro de extrato"
+
+
+
+
 
 
     def __init__(self):
         self.erro = "Login e/ou Senha incorreto(s)"
 
     def imprimir(self, n, s):
-        if Pessoa.autentica(n , s) != False: return self.p['conta']['saldo'] #retorno do saldo
+        if Pessoa.autentica(n , s) != False:
+            return self.p['conta']['saldo'] #retorno do saldo
         else : return self.erro
 
     def depositar(self, n, s, valor):
+        extrato = Pessoa.registrar_log("Deposito", valor, n, s)
         if Pessoa.autentica_deposito(n , s, valor) != False:
             return "Deposito Efetuado com sucesso"
 
@@ -84,7 +102,8 @@ class Conta(object):
 daemon = Pyro4.Daemon()
 uri = daemon.register(Pessoa())
 print "uri=",uri
-p = Pessoa()
+daemon.requestLoop()
+#p = Pessoa()
 
 # ------ alternatively, using serveSimple -----
 Pyro4.Daemon.serveSimple(
