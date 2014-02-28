@@ -26,7 +26,7 @@ class Pessoa(object):
             users = db.pessoa.find({"name": n}) #resultado json em user
             p = users[0] #linha encontrada passada para p. p = {"Chave":"valor"...}
             idobj = p['_id']
-            val = val + p['conta']['saldo'] #acréscimo do valor depositado a saldo
+            val = p['conta']['saldo'] + val #acréscimo do valor depositado a saldo
             db.pessoa.update({ "_id" : idobj},  {"$set":{ "conta" : {"saldo": val}}}) #atualização do valor no banco
             return users[0]
         else:
@@ -56,7 +56,11 @@ class Pessoa(object):
             p = users[0] #linha encontrada passada para p. p = {"Chave":"valor"...}
             idobj = p['_id']
             data = time.strftime("%Y-%m-%d %H:%M:%S")
-            db.log_transacoes.insert( { "id_cliente": idobj, "tipo": tipo, "valor": valor, "Data" : data} )
+            if(tipo == "Deposito"):
+                saldo_atual = p['conta']['saldo'] + valor
+            else:
+                saldo_atual = p['conta']['saldo'] - valor
+            db.log_transacoes.insert( { "id_cliente": idobj, "tipo": tipo, "valor": valor, "Data" : data, "saldo_atual" : saldo_atual } )
             return "!"
         else:
             return "!Falha de registro de extrato"
@@ -75,11 +79,12 @@ class Pessoa(object):
         else : return self.erro
 
     def depositar(self, n, s, valor):
-        extrato = Pessoa.registrar_log("Deposito", valor, n, s)
+        Pessoa.registrar_log("Deposito", valor, n, s)
         if Pessoa.autentica_deposito(n , s, valor) != False:
             return "Deposito Efetuado com sucesso"
 
     def sacar(self, n, s, valor):
+        Pessoa.registrar_log("Saque", valor, n, s)
         if Pessoa.autentica_saque(n , s, valor) != False:
             return "Saque efetuado com sucesso"
     

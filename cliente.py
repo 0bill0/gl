@@ -8,9 +8,9 @@ opcao=True
 
 while opcao:
   #Menu
-  print "*********************************************************************************************************************"
-  print "Opções\t | 0 -> Sair | 1 -> Saldo | 2 -> Depositar | 3 -> Sacar | 4 -> Imprimir Extrato"
-  print "---------------------------------------------------------------------------------------------------------------------"
+  print "****************************************************************************************"
+  print "|Opções\t| 0 -> Sair | 1 -> Saldo | 2 -> Depositar | 3 -> Sacar | 4 -> Imprimir Extrato |" 
+  print "****************************************************************************************"
   option=int(raw_input("Opção: "))
 
   if option==0:
@@ -39,4 +39,9 @@ while opcao:
   elif option==4:
     n = raw_input("Nome: ")
     s = raw_input("Senha: ")
-    print p.gerar_extrato(n, s)
+    print "*************************************************************************"
+    print "|Data Movim.     \t| Histórico\t| Valor  \t| Saldo       \t|" 
+    for x in p.gerar_extrato(n, s):
+      print "|",x['Data'],"\t| ",x['tipo'],"\t| ",x['valor'],"  \t| ",x['saldo_atual'],"\t| " 
+
+    print"*************************************************************************"
