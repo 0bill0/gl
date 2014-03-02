@@ -101,30 +101,13 @@ class Pessoa(object):
             return b
         else : return self.erro
 
-class Conta(object):
-
-    def __init__(self, name, senha):
-        con = Connection('localhost')
-        db = con['SCTI']
-        users = db.alunos.find()
-        self.a = users[0]['nome']
-        return users[0]['nome']
-
-    def m(self):
-        return "Deu certo"
-
-    def g(self):
-        return "asd - "+self.a
-
-# ------ normal code ------
-daemon = Pyro4.Daemon()
-uri = daemon.register(Pessoa())
+# ------ Código padrão encontrado na documentação da biblioteca ------
+daemon = Pyro4.Daemon('192.168.43.5', 5000) #instancia que contém a lógica do lado do servidor e distribui os métodos remotos e as chamadas recebidas para os objetos apropriados. A instancia é contruída passando o IP e a porta para execução do sistema.
+uri = daemon.register(Pessoa())#Registra um objeto Pyro com o identificador fornecido. O objeto é agora conhecido apenas dentro deste daemon, não está automaticamente disponível em um servidor de nomes. Este método retorna uma URI para o objeto registrado.
 print "uri=",uri
-daemon.requestLoop()
-#p = Pessoa()
+daemon.requestLoop()#loop para atender as solicitações de entrada.
 
-# ------ alternatively, using serveSimple -----
-Pyro4.Daemon.serveSimple(
+Pyro4.Daemon.serveSimple( # inicia um servidor Daemon com a classe Pessoa
     {
         Pessoa(): None
     },

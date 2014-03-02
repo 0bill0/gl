@@ -1,9 +1,9 @@
 #coding:utf-8
 import Pyro4
 import collections 
-# use the URI that the server printed:
+# Mensagem na tela para entrar com a URI, use a URI impressa no servidor
 uri = raw_input("Entre com a uri: ").strip()
-p = Pyro4.Proxy(uri)
+p = Pyro4.Proxy(uri) #instancia que cria proxies para os objetos da URImotos
 opcao=True
 
 while opcao:
@@ -20,21 +20,21 @@ while opcao:
   elif option==1:
     n = raw_input("Nome: ")
     s = raw_input("Senha: ")
-    print p.imprimir(n, s)
+    print p.imprimir(n, s) #Proxie atuando com classe Pessoa, podendo invocar os métodos nos objetos remotos
 
   elif option==2:
     n = raw_input("Nome: ")
     s = raw_input("Senha: ")
     v = input("Valor a ser depositado: ")
-    print p.depositar(n, s, v)
-    print p.imprimir(n, s)
+    print p.depositar(n, s, v)#Proxie atuando com classe Pessoa, podendo invocar os métodos nos objetos remotos
+    print p.imprimir(n, s)#Proxie atuando com classe Pessoa, podendo invocar os métodos nos objetos remotos
 
   elif option==3:
     n = raw_input("Nome: ")
     s = raw_input("Senha: ")
     v = input("Valor do saque: ")
-    print p.sacar(n, s, v)
-    print p.imprimir(n, s)
+    print p.sacar(n, s, v)#Proxie atuando com classe Pessoa, podendo invocar os métodos nos objetos remotos
+    print p.imprimir(n, s)#Proxie atuando com classe Pessoa, podendo invocar os métodos nos objetos remotos
 
   elif option==4:
     n = raw_input("Nome: ")

@@ -2,15 +2,15 @@
 import Pyro4
 import collections 
 # use the URI that the server printed:
-uri = raw_input("Enter the uri of the warehouse: ").strip()
+uri = raw_input("Entre com a uri: ").strip()
 p = Pyro4.Proxy(uri)
 opcao=True
 
 while opcao:
   #Menu
-  print "*****************************************************************************************"
+  print "****************************************************************************************"
   print "|Opções\t| 0 -> Sair | 1 -> Saldo | 2 -> Depositar | 3 -> Sacar | 4 -> Imprimir Extrato |" 
-  print "*****************************************************************************************"
+  print "****************************************************************************************"
   option=int(raw_input("Opção: "))
 
   if option==0:

@@ -57,7 +57,7 @@ class Pessoa(object):
             idobj = p['_id']
             data = time.strftime("%Y-%m-%d %H:%M:%S")
             if(tipo == "Deposito"):
-                saldo_atual = p['conta']p['saldo'] + valor
+                saldo_atual = p['conta']['saldo'] + valor
             else:
                 saldo_atual = p['conta']['saldo'] - valor
             db.log_transacoes.insert( { "id_cliente": idobj, "tipo": tipo, "valor": valor, "Data" : data, "saldo_atual" : saldo_atual } )
@@ -117,7 +117,7 @@ class Conta(object):
         return "asd - "+self.a
 
 # ------ normal code ------
-daemon = Pyro4.Daemon()
+daemon = Pyro4.Daemon('192.168.43.5', 5000)
 uri = daemon.register(Pessoa())
 print "uri=",uri
 daemon.requestLoop()
