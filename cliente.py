@@ -2,7 +2,7 @@
 import Pyro4
 import collections 
 # use the URI that the server printed:
-uri = raw_input("Enter the uri of the warehouse: ").strip()
+uri = raw_input("Entre com a uri: ").strip()
 p = Pyro4.Proxy(uri)
 opcao=True
 
